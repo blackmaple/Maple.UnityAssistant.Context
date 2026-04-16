@@ -1,0 +1,53 @@
+using Maple.Hook.Abstractions;
+using Maple.MonoGameAssistant.Core;
+using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
+using Maple.MonoGameAssistant.MetadataUnity;
+using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
+{
+
+    public class GetKeyStringHookItem : HookItem<GetKeyStringHookItem, PTR_FUNC_GET_KEY_STRING_F5AA5E669534DDF0, PTR_FUNC_GET_KEY_STRING_F5AA5E669534DDF0>, IUnityHookItem<GetKeyStringHookItem>
+    {
+        public Func<PMonoString, GetKeyStringHookItem, bool>? SyncCallback { get; set; }
+        public bool Original(PMonoString name)
+        {
+            return this.OriginalMethod.Delegate(name);
+        }
+
+        public static GetKeyStringHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_KEY_STRING_F5AA5E669534DDF0)
+        {
+            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
+            if (pointer == nint.Zero)
+            {
+                return UnityBlockInputException.Throw<GetKeyStringHookItem>($"NOT FOUND {nameof(GetKeyStringHookItem)}:{code}");
+            }
+            return hookFactory.Create<GetKeyStringHookItem>(pointer, GetHookMethodPointer());
+
+        }
+
+        private static unsafe nint GetHookMethodPointer()
+        {
+            delegate* unmanaged[Cdecl]<PMonoString, bool> _proc = &Hook_GetKeyString;
+            return new(_proc);
+        }
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        private static bool Hook_GetKeyString(PMonoString name)
+        {
+            if (TryGet(out var hookItem))
+            {
+                if (hookItem.SyncCallback is not null)
+                {
+                    return hookItem.SyncCallback.Invoke(name, hookItem);
+                }
+                return hookItem.OriginalMethod.Delegate(name);
+            }
+            return default;
+
+        }
+
+
+    }
+}

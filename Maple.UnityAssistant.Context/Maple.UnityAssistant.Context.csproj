@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Maple.MonoGameAssistant.DllProxyDobbyHook</Title>
+		<RepositoryUrl>https://github.com/blackmaple/Maple.MonoGameAssistant</RepositoryUrl>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<Description>enable interoperability between C# AOT and unity game.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>unity;mono;il2cpp;c#;dotnet;AOT</PackageTags>
+		<Version>0.26.0415.20-rc</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Maple.Hook.Imp.Dobby.Static" Version="0.26.401.3-rc" />
+		<PackageReference Include="Maple.Hook.WinMsg" Version="0.26.413.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.D3D11" Version="0.26.416.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.GameUI" Version="0.26.413.1-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.5.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.DllProxyDobbyHook" Version="0.26.415.20-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.Logger" Version="1.4.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataExtensions" Version="1.5.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataUnity" Version="1.5.5-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.Model" Version="1.5.0-rc" />
+		<PackageReference Include="Maple.RenderSpy.Graphics.D3D11" Version="0.26.409.1-rc" />
+		<PackageReference Include="Maple.XScheduler" Version="0.26.416.1-rc" />
+		<PackageReference Include="Maple.XScheduler.SetTimer" Version="0.26.416.1-rc" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Maple.UnityAssistant.Resource\Maple.UnityAssistant.Resource.csproj" />
+	</ItemGroup>
+
+</Project>
