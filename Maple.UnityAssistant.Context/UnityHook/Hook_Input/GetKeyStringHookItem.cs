@@ -3,6 +3,7 @@ using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -12,14 +13,16 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
     public class GetKeyStringHookItem : HookItem<GetKeyStringHookItem, PTR_FUNC_GET_KEY_STRING_F5AA5E669534DDF0, PTR_FUNC_GET_KEY_STRING_F5AA5E669534DDF0>, IUnityHookItem<GetKeyStringHookItem>
     {
         public Func<PMonoString, GetKeyStringHookItem, bool>? SyncCallback { get; set; }
-        public bool Original(PMonoString name)
-        {
-            return this.OriginalMethod.Delegate(name);
-        }
+        //public bool Original(PMonoString name)
+        //{
+        //    return this.OriginalMethod.Delegate(name);
+        //}
 
         public static GetKeyStringHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_KEY_STRING_F5AA5E669534DDF0)
         {
             var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
+    //        metadataContext.Logger.LogInformation("GetKeyStringHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+
             if (pointer == nint.Zero)
             {
                 return UnityBlockInputException.Throw<GetKeyStringHookItem>($"NOT FOUND {nameof(GetKeyStringHookItem)}:{code}");
@@ -30,10 +33,10 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Cdecl]<PMonoString, bool> _proc = &Hook_GetKeyString;
+            delegate* unmanaged[Cdecl, SuppressGCTransition]<PMonoString, bool> _proc = &Hook_GetKeyString;
             return new(_proc);
         }
-        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl), typeof(CallConvSuppressGCTransition)])]
         private static bool Hook_GetKeyString(PMonoString name)
         {
             if (TryGet(out var hookItem))

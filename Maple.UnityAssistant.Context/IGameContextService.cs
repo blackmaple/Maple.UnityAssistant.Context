@@ -1,5 +1,6 @@
 ﻿using Maple.ImGui.Backends;
 using Maple.ImGui.Backends.GameUI;
+using Maple.ImGui.Backends.ImGuiCore;
 using Maple.MonoGameAssistant.GameDTO;
 using Maple.MonoGameAssistant.Model;
 

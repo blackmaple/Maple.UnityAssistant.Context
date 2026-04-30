@@ -3,6 +3,7 @@ using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -12,14 +13,16 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
     public class GetAxisRawHookItem : HookItem<GetAxisRawHookItem, PTR_FUNC_GET_AXIS_RAW_C1F891B243D66D1, PTR_FUNC_GET_AXIS_RAW_C1F891B243D66D1>, IUnityHookItem<GetAxisRawHookItem>
     {
         public Func<PMonoString, GetAxisRawHookItem, float>? SyncCallback { get; set; }
-        public float Original(PMonoString axisName)
-        {
-            return this.OriginalMethod.Delegate(axisName);
-        }
+        //public float Original(PMonoString axisName)
+        //{
+        //    return this.OriginalMethod.Delegate(axisName);
+        //}
 
         public static GetAxisRawHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_AXIS_RAW_C1F891B243D66D1)
         {
             var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
+  //          metadataContext.Logger.LogInformation("GetAxisRawHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+
             if (pointer == nint.Zero)
             {
                 return UnityBlockInputException.Throw<GetAxisRawHookItem>($"NOT FOUND {nameof(GetAxisRawHookItem)}:{code}");
@@ -30,10 +33,10 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Cdecl]<PMonoString, float> _proc = &Hook_GetAxisRaw;
+            delegate* unmanaged[Cdecl, SuppressGCTransition]<PMonoString, float> _proc = &Hook_GetAxisRaw;
             return new(_proc);
         }
-        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl), typeof(CallConvSuppressGCTransition)])]
         private static float Hook_GetAxisRaw(PMonoString axisName)
         {
             if (TryGet(out var hookItem))

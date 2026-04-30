@@ -1,4 +1,4 @@
-﻿using Maple.ImGui.Backends.D3D11;
+﻿using Maple.ImGui.Backends.D3D11.ImGuiCore;
 using Maple.MonoGameAssistant.Common;
 using Maple.MonoGameAssistant.Core;
 using Microsoft.Extensions.DependencyInjection;

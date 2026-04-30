@@ -2,6 +2,7 @@ using Maple.Hook.Abstractions;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -11,14 +12,16 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
     public class GetKeyIntHookItem : HookItem<GetKeyIntHookItem, PTR_FUNC_GET_KEY_INT_364226C2278E06B9, PTR_FUNC_GET_KEY_INT_364226C2278E06B9>, IUnityHookItem<GetKeyIntHookItem>
     {
         public Func<KeyCode, GetKeyIntHookItem, bool>? SyncCallback { get; set; }
-        public bool Original(KeyCode key)
-        {
-            return this.OriginalMethod.Delegate(key);
-        }
+        //public bool Original(KeyCode key)
+        //{
+        //    return this.OriginalMethod.Delegate(key);
+        //}
 
         public static GetKeyIntHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_KEY_INT_364226C2278E06B9)
         {
             var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
+       //    metadataContext.Logger.LogInformation("GetKeyIntHookItem code:{code:X8}, pointer: {pointer:X8}", code, pointer);
+
             if (pointer == nint.Zero)
             {
                 return UnityBlockInputException.Throw<GetKeyIntHookItem>($"NOT FOUND {nameof(GetKeyIntHookItem)}:{code}");
@@ -29,10 +32,10 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Cdecl]<KeyCode, bool> _proc = &Hook_GetKeyInt;
+            delegate* unmanaged[Cdecl, SuppressGCTransition]<KeyCode, bool> _proc = &Hook_GetKeyInt;
             return new(_proc);
         }
-        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl), typeof(CallConvSuppressGCTransition)])]
         private static bool Hook_GetKeyInt(KeyCode key)
         {
             if (TryGet(out var hookItem))

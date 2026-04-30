@@ -2,6 +2,8 @@
 using Maple.Hook.WinMsg;
 using Maple.ImGui.Backends;
 using Maple.ImGui.Backends.GameUI;
+using Maple.ImGui.Backends.ImGuiCore;
+using Maple.ImGui.Backends.Windows;
 using Maple.MonoGameAssistant.Common;
 using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.GameDTO;
@@ -12,6 +14,7 @@ using Maple.UnityAssistant.Resource;
 using Maple.XScheduler;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Maple.UnityAssistant.Context
 {
@@ -33,6 +36,7 @@ namespace Maple.UnityAssistant.Context
         public MonoRuntimeContext RuntimeContext { get; } = runtimeContext;
         public TaskScheduler Scheduler { get; } = taskScheduler;
         public IHookFactory HookFactory { get; } = hookFactory;
+
         #region TContextMetadata
 
         public required TContextMetadata Context { get; set; }
@@ -516,7 +520,7 @@ namespace Maple.UnityAssistant.Context
 
         #region IImGuiUnityInputBridge
 
-       protected UnityMetadataContext? UnityMetadataContext { get; set; }
+        protected UnityMetadataContext? UnityMetadataContext { get; set; }
 
         public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataContext?.SetImeCompositionMode();
 
@@ -532,15 +536,41 @@ namespace Maple.UnityAssistant.Context
             {
                 return false;
             }
-           
+
             var commonResource = GameCommonResources.FirstOrDefault(p => p.DisplayCategory == category && p.ObjectId == objectId);
             if (commonResource is null)
             {
                 return false;
             }
-       //     this.Logger.LogInformation("{category}/{objectId}=>{commonResource}", category, objectId, commonResource.ImagePointer.ToString("X8"));  
+            //     this.Logger.LogInformation("{category}/{objectId}=>{commonResource}", category, objectId, commonResource.ImagePointer.ToString("X8"));  
             return unityApi.TryGetTextureInfo(commonResource.ImagePointer, out nativePtr, out u0, out v1, out u1, out v0);
         }
+
+        public virtual bool TryDrawLauncher(out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
+        {
+
+            Unsafe.SkipInit(out nativePtr);
+            Unsafe.SkipInit(out u0);
+            Unsafe.SkipInit(out v0);
+            Unsafe.SkipInit(out u1);
+            Unsafe.SkipInit(out v1);
+
+            var unityApi = this.UnityMetadataContext;
+            if (unityApi is null)
+            {
+                return false;
+            }
+
+            var commonResource = GameCommonResources.FirstOrDefault(p => p.ImagePointer != nint.Zero);
+            if (commonResource is null)
+            {
+                return false;
+            }
+          //  this.Logger.LogInformation("{TryDrawLauncher}/ =>{commonResource}", nameof(TryDrawLauncher), commonResource.ImagePointer.ToString("X8"));
+            return unityApi.TryGetTextureInfo(commonResource.ImagePointer, out nativePtr, out u0, out v1, out u1, out v0);
+
+        }
+
         public virtual void BlockInput(IImGuiUIView view)
         {
             if (this.UnityMetadataContext is not null)
@@ -966,6 +996,8 @@ namespace Maple.UnityAssistant.Context
                 return GetErrorResult<GameSwitchDisplayDTO>(ex);
             }
         }
+
+
 
         #endregion
     }
