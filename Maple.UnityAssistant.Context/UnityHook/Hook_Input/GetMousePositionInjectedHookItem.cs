@@ -18,14 +18,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    this.OriginalMethod.Delegate(ret);
         //}
 
-        public static GetMousePositionInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_MOUSE_POSITION_INJECTED_99D1FC8E163B2580)
+        public static GetMousePositionInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
         {
-            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
-      //      metadataContext.Logger.LogInformation("GetMousePositionInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+            var pointer = metadataSearcher.GetMethodPointer(nameof(GetMousePositionInjectedHookItem));
+            //      metadataContext.Logger.LogInformation("GetMousePositionInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMousePositionInjectedHookItem>($"NOT FOUND {nameof(GetMousePositionInjectedHookItem)}:{code}");
+                return UnityBlockInputException.Throw<GetMousePositionInjectedHookItem>($"NOT FOUND {nameof(GetMousePositionInjectedHookItem)}");
             }
             return hookFactory.Create<GetMousePositionInjectedHookItem>(pointer, GetHookMethodPointer());
 

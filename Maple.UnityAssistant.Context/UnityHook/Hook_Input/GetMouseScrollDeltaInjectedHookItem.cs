@@ -18,14 +18,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    this.OriginalMethod.Delegate(ret);
         //}
 
-        public static GetMouseScrollDeltaInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_MOUSE_SCROLL_DELTA_INJECTED_F94FBFBA77E43F1)
+        public static GetMouseScrollDeltaInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
         {
-            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
-      //      metadataContext.Logger.LogInformation("GetMouseScrollDeltaInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+            var pointer = metadataSearcher.GetMethodPointer(nameof(GetMouseScrollDeltaInjectedHookItem));
+            //      metadataContext.Logger.LogInformation("GetMouseScrollDeltaInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMouseScrollDeltaInjectedHookItem>($"NOT FOUND {nameof(GetMouseScrollDeltaInjectedHookItem)}:{code}");
+                return UnityBlockInputException.Throw<GetMouseScrollDeltaInjectedHookItem>($"NOT FOUND {nameof(GetMouseScrollDeltaInjectedHookItem)}");
             }
             return hookFactory.Create<GetMouseScrollDeltaInjectedHookItem>(pointer, GetHookMethodPointer());
 
@@ -33,7 +33,7 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         private static unsafe nint GetHookMethodPointer()
         {
-            delegate* unmanaged[Cdecl,SuppressGCTransition]<UnsafeOut<Vector2.Ref_Vector2>, void> _proc = &Hook_GetMouseScrollDeltaInjected;
+            delegate* unmanaged[Cdecl, SuppressGCTransition]<UnsafeOut<Vector2.Ref_Vector2>, void> _proc = &Hook_GetMouseScrollDeltaInjected;
             return new(_proc);
         }
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl), typeof(CallConvSuppressGCTransition)])]

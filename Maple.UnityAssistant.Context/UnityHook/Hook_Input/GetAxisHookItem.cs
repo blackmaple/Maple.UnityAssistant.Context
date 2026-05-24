@@ -20,14 +20,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //}
 
 
-        public static GetAxisHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_AXIS_4AACA73548ECDA60)
+        public static GetAxisHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
         {
-            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
+            var pointer = metadataSearcher.GetMethodPointer(nameof(GetAxisHookItem));
 
             //     metadataContext.Logger.LogInformation("GetAxisHookItem code:{code:X8}, pointer: {pointer:X8}", code, pointer);
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetAxisHookItem>($"NOT FOUND {nameof(GetAxisHookItem)}:{code}");
+                return UnityBlockInputException.Throw<GetAxisHookItem>($"NOT FOUND {nameof(GetAxisHookItem)}");
             }
             return hookFactory.Create<GetAxisHookItem>(pointer, GetHookMethodPointer());
 

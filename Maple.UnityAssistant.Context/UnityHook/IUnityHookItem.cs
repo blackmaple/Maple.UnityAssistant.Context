@@ -10,7 +10,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
     public interface IUnityHookItem<T> where T : HookItem
     {
 
-        static abstract T Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code);
+        static abstract T Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher);
 
     }
 }

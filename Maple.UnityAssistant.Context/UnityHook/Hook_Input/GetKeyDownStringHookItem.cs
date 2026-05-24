@@ -18,14 +18,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(name);
         //}
 
-        public static GetKeyDownStringHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_KEY_DOWN_STRING_868655107A827883)
+        public static GetKeyDownStringHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
         {
-            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
-         //  metadataContext.Logger.LogInformation("GetKeyDownStringHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+            var pointer = metadataSearcher.GetMethodPointer(nameof(GetKeyDownStringHookItem));
+            //  metadataContext.Logger.LogInformation("GetKeyDownStringHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetKeyDownStringHookItem>($"NOT FOUND {nameof(GetKeyDownStringHookItem)}:{code}");
+                return UnityBlockInputException.Throw<GetKeyDownStringHookItem>($"NOT FOUND {nameof(GetKeyDownStringHookItem)}");
             }
             return hookFactory.Create<GetKeyDownStringHookItem>(pointer, GetHookMethodPointer());
 

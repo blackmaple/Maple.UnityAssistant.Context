@@ -17,14 +17,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(button);
         //}
 
-        public static GetMouseButtonDownHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_MOUSE_BUTTON_DOWN_BE6A4B41F70F23EE)
+        public static GetMouseButtonDownHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
         {
-            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
-          //  metadataContext.Logger.LogInformation("GetMouseButtonDownHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+            var pointer = metadataSearcher.GetMethodPointer(nameof(GetMouseButtonDownHookItem));
+            //  metadataContext.Logger.LogInformation("GetMouseButtonDownHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMouseButtonDownHookItem>($"NOT FOUND {nameof(GetMouseButtonDownHookItem)}:{code}");
+                return UnityBlockInputException.Throw<GetMouseButtonDownHookItem>($"NOT FOUND {nameof(GetMouseButtonDownHookItem)}");
             }
             return hookFactory.Create<GetMouseButtonDownHookItem>(pointer, GetHookMethodPointer());
 

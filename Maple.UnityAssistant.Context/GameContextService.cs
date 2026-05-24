@@ -1,11 +1,10 @@
 ﻿using Maple.Hook.Abstractions;
 using Maple.Hook.WinMsg;
-using Maple.ImGui.Backends;
 using Maple.ImGui.Backends.GameUI;
 using Maple.ImGui.Backends.ImGuiCore;
-using Maple.ImGui.Backends.Windows;
 using Maple.MonoGameAssistant.Common;
 using Maple.MonoGameAssistant.Core;
+using Maple.MonoGameAssistant.DllProxyDobbyHook;
 using Maple.MonoGameAssistant.GameDTO;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.MonoGameAssistant.Model;
@@ -14,7 +13,7 @@ using Maple.UnityAssistant.Resource;
 using Maple.XScheduler;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Maple.UnityAssistant.Context
 {
@@ -23,6 +22,7 @@ namespace Maple.UnityAssistant.Context
         MonoRuntimeContext runtimeContext,
         MonoTaskScheduler taskScheduler,
         WinMsgHookFactory winMsgHookFactory,
+        MonoInternalCallService internalCallService,
         MonoGameSettings gameSettings,
         IHookFactory hookFactory,
         IXSchedulerFactory schedulerFactory) :
@@ -36,7 +36,7 @@ namespace Maple.UnityAssistant.Context
         public MonoRuntimeContext RuntimeContext { get; } = runtimeContext;
         public TaskScheduler Scheduler { get; } = taskScheduler;
         public IHookFactory HookFactory { get; } = hookFactory;
-
+        public MonoInternalCallService InternalCallService { get; } = internalCallService;
         #region TContextMetadata
 
         public required TContextMetadata Context { get; set; }
@@ -513,99 +513,101 @@ namespace Maple.UnityAssistant.Context
         //protected List<GameMonsterResource> GameMonsterResources { get; } = [];
         //protected List<GameSkillResource> GameSkillResources { get; } = [];
         //protected List<GameSwitchResource> GameSwitchResources { get; } = [];
-        protected List<IGameCommonReource> GameCommonResources { get; } = [];
-
+        //protected List<IGameCommonReource> GameCommonResources { get; } = [];
+        protected Dictionary<string, GameImageResource> ImageResources { get; } = [];
         protected abstract ValueTask LoadGameResourcesAsync();
         #endregion
 
         #region IImGuiUnityInputBridge
 
-        protected UnityMetadataContext? UnityMetadataContext { get; set; }
+        protected UnityMetadataSearcher? UnityMetadataSearcher { get; set; }
+        public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataSearcher?.SetImeCompositionMode();
 
-        public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataContext?.SetImeCompositionMode();
-
-        public virtual bool TryGetImageInfo(string? category, string objectId, out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
+        public virtual bool TryGetImageInfo(string? category, string objectId, string? image, out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
         {
             Unsafe.SkipInit(out nativePtr);
             Unsafe.SkipInit(out u0);
             Unsafe.SkipInit(out v0);
             Unsafe.SkipInit(out u1);
             Unsafe.SkipInit(out v1);
-            var unityApi = this.UnityMetadataContext;
-            if (unityApi is null)
+           
+            if (string.IsNullOrEmpty(image))
             {
                 return false;
             }
-
-            var commonResource = GameCommonResources.FirstOrDefault(p => p.DisplayCategory == category && p.ObjectId == objectId);
-            if (commonResource is null)
+            if (this.ImageResources.TryGetValue(image, out var imageRes) && imageRes.NativeTexturePtr != nint.Zero)
             {
-                return false;
+                nativePtr = imageRes.NativeTexturePtr;
+                u0 = imageRes.U0;
+                u1 = imageRes.U1;
+                v0 = imageRes.V0;
+                v1 = imageRes.V1;
+                return true;
             }
+            return false;
             //     this.Logger.LogInformation("{category}/{objectId}=>{commonResource}", category, objectId, commonResource.ImagePointer.ToString("X8"));  
-            return unityApi.TryGetTextureInfo(commonResource.ImagePointer, out nativePtr, out u0, out v1, out u1, out v0);
+            //return unityApi.TryGetTextureInfo(commonResource.ImagePointer, out nativePtr, out u0, out v1, out u1, out v0);
         }
 
         public virtual bool TryDrawLauncher(out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
         {
-
             Unsafe.SkipInit(out nativePtr);
             Unsafe.SkipInit(out u0);
             Unsafe.SkipInit(out v0);
             Unsafe.SkipInit(out u1);
             Unsafe.SkipInit(out v1);
-
-            var unityApi = this.UnityMetadataContext;
-            if (unityApi is null)
+            if (this.ImageResources.TryGetValue(nameof(GameImageResource), out var imageRes) && imageRes.NativeTexturePtr != nint.Zero)
             {
-                return false;
+                nativePtr = imageRes.NativeTexturePtr;
+                u0 = imageRes.U0;
+                u1 = imageRes.U1;
+                v0 = imageRes.V0;
+                v1 = imageRes.V1;
+                return true;
             }
-
-            var commonResource = GameCommonResources.FirstOrDefault(p => p.ImagePointer != nint.Zero);
-            if (commonResource is null)
-            {
-                return false;
-            }
-          //  this.Logger.LogInformation("{TryDrawLauncher}/ =>{commonResource}", nameof(TryDrawLauncher), commonResource.ImagePointer.ToString("X8"));
-            return unityApi.TryGetTextureInfo(commonResource.ImagePointer, out nativePtr, out u0, out v1, out u1, out v0);
-
+            return false;
         }
+
+
 
         public virtual void BlockInput(IImGuiUIView view)
         {
-            if (this.UnityMetadataContext is not null)
+            var metadataSearcher = this.UnityMetadataSearcher;
+            if (metadataSearcher is not null)
             {
-                var blockInput = UnityBlockInputService.Create(this.HookFactory, this.UnityMetadataContext, view, Input.Code_Input);
+                var blockInput = UnityBlockInputService.Create(this.HookFactory, view, metadataSearcher);
                 blockInput.BlockInput();
             }
         }
-        protected abstract UnityMetadataContext? LoadUnityEngineContext();
-        private UnityMetadataContext? TryLoadUnityEngineContext()
+
+        protected virtual UnityMetadataSearcher? LoadUnityMetadataSearcher()
+        {
+            return this.RuntimeContext.RuntimeType switch
+            {
+                EnumMonoRuntimeType.MONO => new UnityMetadataSearcher_MONO(this.InternalCallService),
+                EnumMonoRuntimeType.IL2CPP => new UnityMetadataSearcher_IL2CPP(this.RuntimeContext),
+                _ => default
+            };
+        }
+        private UnityMetadataSearcher? TryLoadUnityMetadataSearcher()
         {
             using (this.Logger.Running())
             {
                 try
                 {
-                    return LoadUnityEngineContext();
+                    return LoadUnityMetadataSearcher();
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.LogError("{MethodName}=>{msg}", nameof(TryLoadUnityEngineContext), ex.Message);
+                    this.Logger.LogError("{MethodName}=>{msg}", nameof(LoadUnityMetadataSearcher), ex.Message);
                 }
             }
             return default;
         }
-        private async Task TryLoadUnityEngineContextAsync()
+        private async Task TryLoadUnityMetadataSearcherAsync()
         {
-            this.UnityMetadataContext = await this.MonoTaskAsync((p, host) => host.TryLoadUnityEngineContext(), this).ConfigureAwait(false);
-            if (this.Logger.IsEnabled(LogLevel.Information))
-            {
-                this.Logger.LogInformation("{MethodName}=>{load}=>{ver}=>{api}",
-                nameof(LoadUnityEngineContext),
-               UnityMetadataContext is not null,
-               UnityMetadataContext?.TypeVersion,
-               UnityMetadataContext?.ApiVersion);
-            }
+            this.UnityMetadataSearcher = TryLoadUnityMetadataSearcher();
+
         }
         #endregion
 
@@ -621,7 +623,7 @@ namespace Maple.UnityAssistant.Context
                     await this.CreateXSchedulerAsync().ConfigureAwait(false);
                     await this.HookWindowMessageAsync().ConfigureAwait(false);
                     await this.LoadContextMetadataAsync().ConfigureAwait(false);
-                    await this.TryLoadUnityEngineContextAsync().ConfigureAwait(false);
+                    await this.TryLoadUnityMetadataSearcherAsync().ConfigureAwait(false);
                     await this.LoadGameResourcesAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)

@@ -17,14 +17,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(button);
         //}
 
-        public static GetMouseButtonUpHookItem Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, MonoClassMetadataCollection classMetadataCollection, ulong code = Input.Code_FunctionPointerType_GET_MOUSE_BUTTON_UP_8EE9A0C534915B11)
+        public static GetMouseButtonUpHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
         {
-            var pointer = metadataContext.GetMethodDelegate(code, classMetadataCollection).MethodPointer;
-        //    metadataContext.Logger.LogInformation("GetMouseButtonUpHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
+            var pointer = metadataSearcher.GetMethodPointer(nameof(GetMouseButtonUpHookItem));
+            //    metadataContext.Logger.LogInformation("GetMouseButtonUpHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMouseButtonUpHookItem>($"NOT FOUND {nameof(GetMouseButtonUpHookItem)}:{code}");
+                return UnityBlockInputException.Throw<GetMouseButtonUpHookItem>($"NOT FOUND {nameof(GetMouseButtonUpHookItem)}");
             }
             return hookFactory.Create<GetMouseButtonUpHookItem>(pointer, GetHookMethodPointer());
 

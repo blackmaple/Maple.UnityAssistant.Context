@@ -22,12 +22,12 @@ namespace Maple.UnityAssistant.Context.UnityHook
         public required GetMousePositionInjectedHookItem GetMousePositionInjectedHookItem { get; init; }
         public required GetMouseScrollDeltaInjectedHookItem GetMouseScrollDeltaInjectedHookItem { get; init; }
 
-        public static UnityBlockInputService Create(IHookFactory hookFactory, UnityMetadataContext metadataContext, IImGuiUIView view, ulong code = Input.Code_Input)
+        public static UnityBlockInputService Create(IHookFactory hookFactory, IImGuiUIView view, UnityMetadataSearcher metadataSearcher)
         {
 
-            var classMetadataCollection = metadataContext.GetClassMetadataCollection(code);
 
-            var hookGetAxis = GetAxisHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+
+            var hookGetAxis = GetAxisHookItem.Create(hookFactory, metadataSearcher);
             hookGetAxis.SyncCallback += (axisName, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -38,7 +38,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
             };
             AdditionalContent(hookGetAxis, view);
 
-            var hookGetAxisRaw = GetAxisRawHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetAxisRaw = GetAxisRawHookItem.Create(hookFactory, metadataSearcher);
             hookGetAxisRaw.SyncCallback += (axisName, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -51,7 +51,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
 
 
-            var hookGetKeyDownInt = GetKeyDownIntHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetKeyDownInt = GetKeyDownIntHookItem.Create(hookFactory, metadataSearcher);
             hookGetKeyDownInt.SyncCallback += static (key, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -64,7 +64,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
 
 
-            var hookGetKeyDownString = GetKeyDownStringHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetKeyDownString = GetKeyDownStringHookItem.Create(hookFactory, metadataSearcher);
             hookGetKeyDownString.SyncCallback += static (key, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -76,7 +76,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
             AdditionalContent(hookGetKeyDownString, view);
 
 
-            var hookGetKeyInt = GetKeyIntHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetKeyInt = GetKeyIntHookItem.Create(hookFactory, metadataSearcher);
             hookGetKeyInt.SyncCallback += static (key, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -89,7 +89,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
 
 
-            var hookGetKeyString = GetKeyStringHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetKeyString = GetKeyStringHookItem.Create(hookFactory, metadataSearcher);
             hookGetKeyString.SyncCallback += static (key, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -102,7 +102,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
 
 
-            var hookGetKeyUpInt = GetKeyUpIntHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetKeyUpInt = GetKeyUpIntHookItem.Create(hookFactory, metadataSearcher);
             hookGetKeyUpInt.SyncCallback += static (key, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -115,7 +115,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
 
 
-            var hookGetKeyUpString = GetKeyUpStringHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetKeyUpString = GetKeyUpStringHookItem.Create(hookFactory, metadataSearcher);
             hookGetKeyUpString.SyncCallback += static (key, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -127,7 +127,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
             AdditionalContent(hookGetKeyUpString, view);
 
 
-            var hookGetMouseButtonDown = GetMouseButtonDownHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetMouseButtonDown = GetMouseButtonDownHookItem.Create(hookFactory, metadataSearcher);
             hookGetMouseButtonDown.SyncCallback += static (button, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -139,7 +139,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
             AdditionalContent(hookGetMouseButtonDown, view);
 
 
-            var hookGetMouseButton = GetMouseButtonHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetMouseButton = GetMouseButtonHookItem.Create(hookFactory, metadataSearcher);
             hookGetMouseButton.SyncCallback += static (button, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -152,7 +152,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
 
 
-            var hookGetMouseButtonUp = GetMouseButtonUpHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetMouseButtonUp = GetMouseButtonUpHookItem.Create(hookFactory, metadataSearcher);
             hookGetMouseButtonUp.SyncCallback += static (button, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -164,7 +164,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
             AdditionalContent(hookGetMouseButtonUp, view);
 
 
-            var hookGetMousePositionInjected = GetMousePositionInjectedHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetMousePositionInjected = GetMousePositionInjectedHookItem.Create(hookFactory, metadataSearcher);
             hookGetMousePositionInjected.SyncCallback += static (ret, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)
@@ -177,7 +177,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
             AdditionalContent(hookGetMousePositionInjected, view);
 
 
-            var hookGetMouseScrollDeltaInjected = GetMouseScrollDeltaInjectedHookItem.Create(hookFactory, metadataContext, classMetadataCollection);
+            var hookGetMouseScrollDeltaInjected = GetMouseScrollDeltaInjectedHookItem.Create(hookFactory, metadataSearcher);
             hookGetMouseScrollDeltaInjected.SyncCallback += static (ret, hookItem) =>
             {
                 if (hookItem.AdditionalContent.TryGet<IImGuiUIView>(nameof(IImGuiUIView), out var view) && view.SessionWindowVisible)

@@ -1,4 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
+using Maple.MonoGameAssistant.MetadataExtensions.MetadataGenerator;
 
 namespace Maple.UnityAssistant.Context.UnityHook.Ptr_Input
 {
