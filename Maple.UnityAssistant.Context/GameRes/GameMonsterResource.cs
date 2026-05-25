@@ -1,13 +1,14 @@
 ﻿using Maple.MonoGameAssistant.GameDTO;
- 
-namespace Maple.UnityAssistant.Resource
+
+namespace Maple.UnityAssistant.Context.GameRes
 {
-    public class GameCurrencyResource : GameCurrencyDisplayDTO, IGameCommonReource
+    public class GameMonsterResource : GameMonsterDisplayDTO, IGameCommonReource
     {
         public nint ObjectPointer { get; set; }
-
         public nint ImagePointer { get; set; }
-        
+      
+
     }
+
 
 }

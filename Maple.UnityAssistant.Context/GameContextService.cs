@@ -6,14 +6,12 @@ using Maple.MonoGameAssistant.Common;
 using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.DllProxyDobbyHook;
 using Maple.MonoGameAssistant.GameDTO;
-using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.MonoGameAssistant.Model;
+using Maple.UnityAssistant.Context.GameRes;
 using Maple.UnityAssistant.Context.UnityHook;
-using Maple.UnityAssistant.Resource;
 using Maple.XScheduler;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Maple.UnityAssistant.Context
 {

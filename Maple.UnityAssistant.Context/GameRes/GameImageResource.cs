@@ -1,4 +1,4 @@
-﻿namespace Maple.UnityAssistant.Resource
+﻿namespace Maple.UnityAssistant.Context.GameRes
 {
     public class GameImageResource
     {

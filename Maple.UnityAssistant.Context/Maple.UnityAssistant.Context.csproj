@@ -28,23 +28,20 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Maple.Hook.Imp.Dobby.Static" Version="0.26.401.3-rc" />
-		<PackageReference Include="Maple.ImGui.Backends.D3D11" Version="0.26.522.1-rc" />
-		<PackageReference Include="Maple.ImGui.Backends.GameUI" Version="0.26.522.1-rc" />
-		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.5.2-rc" />
-		<PackageReference Include="Maple.MonoGameAssistant.DllProxyDobbyHook" Version="0.26.417.1-rc" />
-		<PackageReference Include="Maple.MonoGameAssistant.Logger" Version="1.4.0-rc" />
-		<PackageReference Include="Maple.MonoGameAssistant.MetadataExtensions" Version="1.5.1-rc" />
-		<PackageReference Include="Maple.MonoGameAssistant.MetadataUnity" Version="1.5.9-rc" />
-		<PackageReference Include="Maple.MonoGameAssistant.Model" Version="1.5.0-rc" />
-		<PackageReference Include="Maple.XScheduler" Version="0.26.416.1-rc" />
-		<PackageReference Include="Maple.XScheduler.SetTimer" Version="0.26.416.1-rc" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+		<PackageReference Include="Maple.Hook.Imp.Dobby.Static" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.D3D11" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.GameUI" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.DllProxyDobbyHook" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.Logger" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataCollections" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataExtensions" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataUnity" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.Model" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.XScheduler" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.XScheduler.SetTimer" Version="0.26.524.1-rc" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
 
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Maple.UnityAssistant.Resource\Maple.UnityAssistant.Resource.csproj" />
 	</ItemGroup>
 
 </Project>
