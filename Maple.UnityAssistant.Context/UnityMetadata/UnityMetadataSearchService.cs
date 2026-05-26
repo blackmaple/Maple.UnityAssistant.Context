@@ -96,9 +96,11 @@ namespace Maple.UnityAssistant.Context.UnityMetadata
             var w = PTR_FUNC_GET_WIDTH.Delegate(pTexture2D);
             var h = PTR_FUNC_GET_HEIGHT.Delegate(pTexture2D);
             u0 = ref_Rect.m_XMin / w;
-            v0 = ref_Rect.m_YMin / h;
+            v0 = (ref_Rect.m_YMin + ref_Rect.m_Height) / h;
+
             u1 = (ref_Rect.m_XMin + ref_Rect.m_Width) / w;
-            v1 = (ref_Rect.m_YMin + ref_Rect.m_Height) / h;
+            v1 = ref_Rect.m_YMin / h;
+
             return true;
         }
 
