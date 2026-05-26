@@ -5,6 +5,13 @@ using System.Runtime.InteropServices;
 
 namespace Maple.UnityAssistant.Context.UnityHook.Ptr_Input
 {
+    public enum IMECompositionMode
+    {
+        Auto,
+        On,
+        Off
+    }
+
     [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
     public unsafe readonly struct PTR_FUNC_SET_IME_COMPOSITION_MODE_6F1C9D826DB1C736(nint ptr)
     {

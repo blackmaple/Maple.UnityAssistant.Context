@@ -9,6 +9,7 @@ using Maple.MonoGameAssistant.GameDTO;
 using Maple.MonoGameAssistant.Model;
 using Maple.UnityAssistant.Context.GameRes;
 using Maple.UnityAssistant.Context.UnityHook;
+using Maple.UnityAssistant.Context.UnityMetadata;
 using Maple.XScheduler;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
@@ -518,7 +519,7 @@ namespace Maple.UnityAssistant.Context
 
         #region IImGuiUnityInputBridge
 
-        protected UnityMetadataSearcher? UnityMetadataSearcher { get; set; }
+        protected UnityMetadataSearchService? UnityMetadataSearcher { get; set; }
         public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataSearcher?.SetImeCompositionMode();
 
         public virtual bool TryGetImageInfo(string? category, string objectId, string? image, out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
@@ -578,7 +579,7 @@ namespace Maple.UnityAssistant.Context
             }
         }
 
-        protected virtual UnityMetadataSearcher? LoadUnityMetadataSearcher()
+        protected virtual UnityMetadataSearchService? LoadUnityMetadataSearcher()
         {
             return this.RuntimeContext.RuntimeType switch
             {
@@ -587,7 +588,7 @@ namespace Maple.UnityAssistant.Context
                 _ => default
             };
         }
-        private UnityMetadataSearcher? TryLoadUnityMetadataSearcher()
+        private UnityMetadataSearchService? TryLoadUnityMetadataSearcher()
         {
             using (this.Logger.Running())
             {

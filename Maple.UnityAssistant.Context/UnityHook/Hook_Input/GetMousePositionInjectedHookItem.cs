@@ -2,6 +2,7 @@ using Maple.Hook.Abstractions;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using Maple.UnityAssistant.Context.UnityMetadata;
 using Maple.UnmanagedExtensions;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
@@ -18,7 +19,7 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    this.OriginalMethod.Delegate(ret);
         //}
 
-        public static GetMousePositionInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
+        public static GetMousePositionInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(GetMousePositionInjectedHookItem));
             //      metadataContext.Logger.LogInformation("GetMousePositionInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);

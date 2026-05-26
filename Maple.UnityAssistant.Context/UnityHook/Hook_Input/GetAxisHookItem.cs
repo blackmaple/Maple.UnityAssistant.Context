@@ -4,6 +4,7 @@ using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using Maple.UnityAssistant.Context.UnityMetadata;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -20,7 +21,7 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //}
 
 
-        public static GetAxisHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
+        public static GetAxisHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(GetAxisHookItem));
 

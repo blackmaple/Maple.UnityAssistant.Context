@@ -2,17 +2,20 @@
 using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.DllProxyDobbyHook;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCollector;
+using Maple.MonoGameAssistant.MetadataExtensions.MetadataGenerator;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.MonoGameAssistant.MetadataUnity.UnityMetadata;
 using Maple.UnityAssistant.Context.UnityHook.Hook_Input;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using static Maple.MonoGameAssistant.MetadataUnity.Sprite;
 
-namespace Maple.UnityAssistant.Context.UnityHook
+namespace Maple.UnityAssistant.Context.UnityMetadata
 {
- 
 
-    public class UnityMetadataSearcher  
+
+    public class UnityMetadataSearchService
     {
         public virtual Dictionary<string, string> MethodSignatureCache { get; } = new Dictionary<string, string>
         {
@@ -52,7 +55,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
 
         protected PTR_FUNC_SET_IME_COMPOSITION_MODE_6F1C9D826DB1C736 PTR_FUNC_SET_IME_COMPOSITION_MODE;
 
-        public UnityMetadataSearcher()
+        public UnityMetadataSearchService()
         {
             this.PTR_FUNC_GET_TEXTURE = GetMethodPointer(nameof(PTR_FUNC_GET_TEXTURE_9E369564B1447B9B));
             this.PTR_FUNC_GET_TEXTURE_RECT_INJECTED = GetMethodPointer(nameof(PTR_FUNC_GET_TEXTURE_RECT_INJECTED_991A7878D43EDC7F));
@@ -106,7 +109,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
     }
 
     public sealed class UnityMetadataSearcher_MONO(MonoInternalCallService internalCallService)
-        : UnityMetadataSearcher
+        : UnityMetadataSearchService
     {
         private MonoInternalCallService InternalCallService { get; } = internalCallService;
 
@@ -122,7 +125,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
     }
 
     public sealed class UnityMetadataSearcher_IL2CPP(MonoRuntimeContext context)
-        : UnityMetadataSearcher
+        : UnityMetadataSearchService
     {
         private MonoRuntimeContext Context { get; } = context;
 
@@ -162,5 +165,23 @@ namespace Maple.UnityAssistant.Context.UnityHook
             }
             return default;
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public unsafe  readonly partial struct Ptr_XXX(nint ptr) : IPtrMetadata
+    {
+        [MarshalAs(UnmanagedType.SysInt)]
+        private readonly nint m_Pointer = ptr;
+
+        public nint Ptr => m_Pointer;
+
+        public static implicit operator Ptr_XXX(nint ptr) => new(ptr);
+        public static implicit operator nint(Ptr_XXX ptr) => ptr.m_Pointer;
+        public static implicit operator bool(Ptr_XXX ptr) => ptr.m_Pointer != nint.Zero;
+        public override string ToString()
+        {
+            return m_Pointer.ToString("X8");
+        }
+
     }
 }

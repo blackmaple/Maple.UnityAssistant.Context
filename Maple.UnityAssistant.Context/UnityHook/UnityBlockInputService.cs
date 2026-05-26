@@ -2,6 +2,7 @@
 using Maple.ImGui.Backends.ImGuiCore;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Hook_Input;
+using Maple.UnityAssistant.Context.UnityMetadata;
 
 namespace Maple.UnityAssistant.Context.UnityHook
 {
@@ -22,7 +23,7 @@ namespace Maple.UnityAssistant.Context.UnityHook
         public required GetMousePositionInjectedHookItem GetMousePositionInjectedHookItem { get; init; }
         public required GetMouseScrollDeltaInjectedHookItem GetMouseScrollDeltaInjectedHookItem { get; init; }
 
-        public static UnityBlockInputService Create(IHookFactory hookFactory, IImGuiUIView view, UnityMetadataSearcher metadataSearcher)
+        public static UnityBlockInputService Create(IHookFactory hookFactory, IImGuiUIView view, UnityMetadataSearchService metadataSearcher)
         {
 
 

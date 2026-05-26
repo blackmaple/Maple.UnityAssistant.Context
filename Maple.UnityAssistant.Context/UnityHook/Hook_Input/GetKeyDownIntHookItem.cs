@@ -2,6 +2,7 @@ using Maple.Hook.Abstractions;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
 using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
+using Maple.UnityAssistant.Context.UnityMetadata;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(key);
         //}
 
-        public static GetKeyDownIntHookItem Create(IHookFactory hookFactory, UnityMetadataSearcher metadataSearcher)
+        public static GetKeyDownIntHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(GetKeyDownIntHookItem));
             //    metadataContext.Logger.LogInformation("GetKeyDownIntHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
