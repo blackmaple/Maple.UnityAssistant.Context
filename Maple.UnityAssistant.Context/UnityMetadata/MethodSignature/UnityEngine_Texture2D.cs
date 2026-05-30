@@ -1,6 +1,9 @@
+using System.Runtime.CompilerServices;
+using static Maple.UnityAssistant.Context.UnityMetadata.MethodSignature.UnityEngine_Texture;
+
 namespace Maple.UnityAssistant.Context.UnityMetadata.MethodSignature;
 
-public static class UnityEngine_Texture2D
+public partial class UnityEngine_Texture2D
 {
     public const string MONO_ApplyImpl = "UnityEngine.Texture2D::ApplyImpl";
     public const string MONO_ClearMinimumMipmapLevel = "UnityEngine.Texture2D::ClearMinimumMipmapLevel";
@@ -121,3 +124,19 @@ public static class UnityEngine_Texture2D
     public const string IL2CPP_UpdateExternalTexture = "UnityEngine.Texture2D::UpdateExternalTexture(System.IntPtr)";
 }
 
+partial class UnityEngine_Texture2D
+{
+    partial struct Ptr_UnityEngine_Texture2D
+    {
+        public nint GetNativeTexturePtr() => BaseClass().GetNativeTexturePtr();
+        public int Width => BaseClass().Width;
+        public int Height => BaseClass().Height;
+
+    }
+    partial struct Ptr_UnityEngine_Texture2D
+    {
+        public UnityEngine_Texture.Ptr_UnityEngine_Texture BaseClass() => this;
+        public static implicit operator UnityEngine_Texture.Ptr_UnityEngine_Texture(Ptr_UnityEngine_Texture2D ptr) => new(ptr.m_Pointer);
+    }
+
+}

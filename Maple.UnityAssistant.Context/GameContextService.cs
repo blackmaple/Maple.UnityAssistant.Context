@@ -529,7 +529,7 @@ namespace Maple.UnityAssistant.Context
             Unsafe.SkipInit(out v0);
             Unsafe.SkipInit(out u1);
             Unsafe.SkipInit(out v1);
-           
+
             if (string.IsNullOrEmpty(image))
             {
                 return false;
@@ -579,34 +579,28 @@ namespace Maple.UnityAssistant.Context
             }
         }
 
-        protected virtual UnityMetadataSearchService? LoadUnityMetadataSearcher()
+        protected virtual UnityMetadataSearchService? LoadUnityMetadataSearchService()
         {
-            return this.RuntimeContext.RuntimeType switch
-            {
-                EnumMonoRuntimeType.MONO => new UnityMetadataSearcher_MONO(this.InternalCallService),
-                EnumMonoRuntimeType.IL2CPP => new UnityMetadataSearcher_IL2CPP(this.RuntimeContext),
-                _ => default
-            };
+            return UnityMetadataSearchFactory.Create(this.RuntimeContext, this.InternalCallService);
         }
-        private UnityMetadataSearchService? TryLoadUnityMetadataSearcher()
+        private UnityMetadataSearchService? TryLoadUnityMetadataSearchService()
         {
             using (this.Logger.Running())
             {
                 try
                 {
-                    return LoadUnityMetadataSearcher();
+                    return LoadUnityMetadataSearchService();
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.LogError("{MethodName}=>{msg}", nameof(LoadUnityMetadataSearcher), ex.Message);
+                    this.Logger.LogError("{MethodName}=>{msg}", nameof(LoadUnityMetadataSearchService), ex.Message);
                 }
             }
             return default;
         }
-        private async Task TryLoadUnityMetadataSearcherAsync()
+        private async Task TryLoadUnityMetadataSearchServiceAsync()
         {
-            this.UnityMetadataSearcher = TryLoadUnityMetadataSearcher();
-
+            this.UnityMetadataSearcher = await this.MonoTaskAsync((p, host) => host.TryLoadUnityMetadataSearchService(), this).ConfigureAwait(false);
         }
         #endregion
 
@@ -619,10 +613,11 @@ namespace Maple.UnityAssistant.Context
             {
                 try
                 {
-                    await this.CreateXSchedulerAsync().ConfigureAwait(false);
                     await this.HookWindowMessageAsync().ConfigureAwait(false);
+                    await this.CreateXSchedulerAsync().ConfigureAwait(false);
+
                     await this.LoadContextMetadataAsync().ConfigureAwait(false);
-                    await this.TryLoadUnityMetadataSearcherAsync().ConfigureAwait(false);
+                    await this.TryLoadUnityMetadataSearchServiceAsync().ConfigureAwait(false);
                     await this.LoadGameResourcesAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)

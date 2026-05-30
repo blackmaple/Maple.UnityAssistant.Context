@@ -1,6 +1,11 @@
+using Maple.Hook.Abstractions;
+using Maple.MonoGameAssistant.Common;
+using Maple.MonoGameAssistant.MetadataExtensions.MetadataGenerator;
+using static Maple.UnityAssistant.Context.UnityMetadata.MethodSignature.UnityEngine_Input;
+
 namespace Maple.UnityAssistant.Context.UnityMetadata.MethodSignature;
 
-public static class UnityEngine_Sprite
+public partial class UnityEngine_Sprite
 {
     public const string MONO_CreateSpriteInjected = "UnityEngine.Sprite::CreateSprite_Injected";
     public const string MONO_CreateSpriteWithoutTextureScriptingInjected = "UnityEngine.Sprite::CreateSpriteWithoutTextureScripting_Injected";
@@ -78,3 +83,57 @@ public static class UnityEngine_Sprite
     public const string IL2CPP_OverridePhysicsShapeCount = "UnityEngine.Sprite::OverridePhysicsShapeCount(UnityEngine.Sprite,System.Int32)";
 }
 
+partial class UnityEngine_Sprite
+{
+    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public unsafe readonly struct PTR_FUNC_GET_TEXTURE(nint ptr) : IPtrMetadata, IHookMethod
+    {
+        [System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.SysInt)]
+        public readonly delegate* unmanaged[SuppressGCTransition, Cdecl]<nint,  UnityEngine_Texture2D.Ptr_UnityEngine_Texture2D> m_Pointer =
+            (delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, UnityEngine_Texture2D.Ptr_UnityEngine_Texture2D>)ptr;
+        [System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public UnityEngine_Texture2D.Ptr_UnityEngine_Texture2D Delegate(nint @this) => this.m_Pointer(@this);
+        public nint PtrMethod => new(m_Pointer);
+
+        public nint Ptr => new(m_Pointer);
+
+        public static implicit operator bool(PTR_FUNC_GET_TEXTURE func) => func.Ptr != nint.Zero;
+        public static implicit operator PTR_FUNC_GET_TEXTURE(nint func) => new(func);
+        public static implicit operator nint(PTR_FUNC_GET_TEXTURE func) => func.Ptr;
+        public override string ToString() => Ptr.ToString("X8");
+    }
+    internal static PTR_FUNC_GET_TEXTURE s_PTR_FUNC_GET_TEXTURE;
+
+    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public unsafe readonly struct PTR_FUNC_GET_TEXTURE_RECT_INJECTED(nint ptr) : IPtrMetadata, IHookMethod
+    {
+        [System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.SysInt)]
+        public readonly delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, MapleOut<Ref_Rect>, void> m_Pointer =
+            (delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, MapleOut<Ref_Rect>, void>)ptr;
+        [System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public void Delegate(nint @this, MapleOut<Ref_Rect> rect) => this.m_Pointer(@this, rect);
+        public nint PtrMethod => new(m_Pointer);
+
+        public nint Ptr => new(m_Pointer);
+
+        public static implicit operator bool(PTR_FUNC_GET_TEXTURE_RECT_INJECTED func) => func.Ptr != nint.Zero;
+        public static implicit operator PTR_FUNC_GET_TEXTURE_RECT_INJECTED(nint func) => new(func);
+        public static implicit operator nint(PTR_FUNC_GET_TEXTURE_RECT_INJECTED func) => func.Ptr;
+        public override string ToString() => Ptr.ToString("X8");
+    }
+    internal static PTR_FUNC_GET_TEXTURE_RECT_INJECTED s_PTR_FUNC_GET_TEXTURE_RECT_INJECTED;
+
+    partial struct Ptr_UnityEngine_Sprite
+    {
+        public UnityEngine_Texture2D.Ptr_UnityEngine_Texture2D GetTexture() => s_PTR_FUNC_GET_TEXTURE.Delegate(this);
+        private void GetTextureRect_Injected(MapleOut<Ref_Rect> rect) => s_PTR_FUNC_GET_TEXTURE_RECT_INJECTED.Delegate(this, rect);
+        public void GetTextureRect_Injected(out Ref_Rect rect) => s_PTR_FUNC_GET_TEXTURE_RECT_INJECTED.Delegate(this, MapleOut<Ref_Rect>.FromOut(out rect));
+
+    }
+
+    public static void Initialize(UnityMetadataSearchService metadataSearchService)
+    {
+        s_PTR_FUNC_GET_TEXTURE = metadataSearchService.GetMethodPointer(nameof(UnityEngine_Sprite.PTR_FUNC_GET_TEXTURE));
+        s_PTR_FUNC_GET_TEXTURE_RECT_INJECTED = metadataSearchService.GetMethodPointer(nameof(UnityEngine_Sprite.PTR_FUNC_GET_TEXTURE_RECT_INJECTED));
+    }
+}

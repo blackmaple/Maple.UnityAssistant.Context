@@ -1,6 +1,5 @@
 ﻿using Maple.Hook.Abstractions;
 using Maple.ImGui.Backends.ImGuiCore;
-using Maple.MonoGameAssistant.MetadataUnity;
 using Maple.UnityAssistant.Context.UnityHook.Hook_Input;
 using Maple.UnityAssistant.Context.UnityMetadata;
 

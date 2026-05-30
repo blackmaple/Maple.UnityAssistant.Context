@@ -1,16 +1,13 @@
 using Maple.Hook.Abstractions;
-using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
-using Maple.MonoGameAssistant.MetadataUnity;
-using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
 using Maple.UnityAssistant.Context.UnityMetadata;
-using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Maple.UnityAssistant.Context.UnityMetadata.MethodSignature.UnityEngine_Input;
 
 namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 {
 
-    public class GetMouseButtonDownHookItem : HookItem<GetMouseButtonDownHookItem, PTR_FUNC_GET_MOUSE_BUTTON_DOWN_BE6A4B41F70F23EE, PTR_FUNC_GET_MOUSE_BUTTON_DOWN_BE6A4B41F70F23EE>, IUnityHookItem<GetMouseButtonDownHookItem>
+    public class GetMouseButtonDownHookItem : HookItem<GetMouseButtonDownHookItem, PTR_FUNC_GET_MOUSE_BUTTON_DOWN, PTR_FUNC_GET_MOUSE_BUTTON_DOWN>, IUnityHookItem<GetMouseButtonDownHookItem>
     {
         public Func<int, GetMouseButtonDownHookItem, bool>? SyncCallback { get; set; }
         //public bool Original(int button)
@@ -20,12 +17,12 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         public static GetMouseButtonDownHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
-            var pointer = metadataSearcher.GetMethodPointer(nameof(GetMouseButtonDownHookItem));
+            var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_MOUSE_BUTTON_DOWN));
             //  metadataContext.Logger.LogInformation("GetMouseButtonDownHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMouseButtonDownHookItem>($"NOT FOUND {nameof(GetMouseButtonDownHookItem)}");
+                return UnityBlockInputException.Throw<GetMouseButtonDownHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_MOUSE_BUTTON_DOWN)}");
             }
             return hookFactory.Create<GetMouseButtonDownHookItem>(pointer, GetHookMethodPointer());
 

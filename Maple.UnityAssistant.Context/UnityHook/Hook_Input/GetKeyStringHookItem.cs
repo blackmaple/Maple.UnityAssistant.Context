@@ -1,17 +1,14 @@
 using Maple.Hook.Abstractions;
 using Maple.MonoGameAssistant.Core;
-using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
-using Maple.MonoGameAssistant.MetadataUnity;
-using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
 using Maple.UnityAssistant.Context.UnityMetadata;
-using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Maple.UnityAssistant.Context.UnityMetadata.MethodSignature.UnityEngine_Input;
 
 namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 {
 
-    public class GetKeyStringHookItem : HookItem<GetKeyStringHookItem, PTR_FUNC_GET_KEY_STRING_F5AA5E669534DDF0, PTR_FUNC_GET_KEY_STRING_F5AA5E669534DDF0>, IUnityHookItem<GetKeyStringHookItem>
+    public class GetKeyStringHookItem : HookItem<GetKeyStringHookItem, PTR_FUNC_GET_KEY_STRING, PTR_FUNC_GET_KEY_STRING>, IUnityHookItem<GetKeyStringHookItem>
     {
         public Func<PMonoString, GetKeyStringHookItem, bool>? SyncCallback { get; set; }
         //public bool Original(PMonoString name)
@@ -21,12 +18,12 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         public static GetKeyStringHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
-            var pointer = metadataSearcher.GetMethodPointer(nameof(GetKeyStringHookItem));
+            var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_KEY_STRING));
             //        metadataContext.Logger.LogInformation("GetKeyStringHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetKeyStringHookItem>($"NOT FOUND {nameof(GetKeyStringHookItem)}");
+                return UnityBlockInputException.Throw<GetKeyStringHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_KEY_STRING)}");
             }
             return hookFactory.Create<GetKeyStringHookItem>(pointer, GetHookMethodPointer());
 

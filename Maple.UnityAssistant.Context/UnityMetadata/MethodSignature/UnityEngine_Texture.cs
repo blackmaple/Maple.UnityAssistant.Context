@@ -1,6 +1,9 @@
+using Maple.Hook.Abstractions;
+using Maple.MonoGameAssistant.MetadataExtensions.MetadataGenerator;
+
 namespace Maple.UnityAssistant.Context.UnityMetadata.MethodSignature;
 
-public static class UnityEngine_Texture
+public partial class UnityEngine_Texture
 {
     public const string MONO_GetAllowThreadedTextureCreation = "UnityEngine.Texture::get_allowThreadedTextureCreation";
     public const string MONO_GetAnisoLevel = "UnityEngine.Texture::get_anisoLevel";
@@ -119,3 +122,85 @@ public static class UnityEngine_Texture
     public const string IL2CPP_SetStreamingTextureMaterialDebugProperties = "UnityEngine.Texture::SetStreamingTextureMaterialDebugProperties()";
 }
 
+
+public partial class UnityEngine_Texture
+{
+
+    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public unsafe readonly struct PTR_FUNC_GET_NATIVE_TEXTURE_PTR(nint ptr) : IPtrMetadata, IHookMethod
+    {
+        [System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.SysInt)]
+        public readonly delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, nint> m_Pointer =
+            (delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, nint>)ptr;
+        [System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public nint Delegate(nint @this) => this.m_Pointer(@this);
+        public nint PtrMethod => new(m_Pointer);
+
+        public nint Ptr => new(m_Pointer);
+
+        public static implicit operator bool(PTR_FUNC_GET_NATIVE_TEXTURE_PTR func) => func.Ptr != nint.Zero;
+        public static implicit operator PTR_FUNC_GET_NATIVE_TEXTURE_PTR(nint func) => new(func);
+        public static implicit operator nint(PTR_FUNC_GET_NATIVE_TEXTURE_PTR func) => func.Ptr;
+        public override string ToString() => Ptr.ToString("X8");
+    }
+    internal static PTR_FUNC_GET_NATIVE_TEXTURE_PTR s_PTR_FUNC_GET_NATIVE_TEXTURE_PTR;
+
+    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public unsafe readonly struct PTR_FUNC_GET_WIDTH(nint ptr) : IPtrMetadata, IHookMethod
+    {
+        [System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.SysInt)]
+        public readonly delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, int> m_Pointer =
+            (delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, int>)ptr;
+        [System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int Delegate(nint @this) => this.m_Pointer(@this);
+        public nint PtrMethod => new(m_Pointer);
+
+        public nint Ptr => new(m_Pointer);
+
+        public static implicit operator bool(PTR_FUNC_GET_WIDTH func) => func.Ptr != nint.Zero;
+        public static implicit operator PTR_FUNC_GET_WIDTH(nint func) => new(func);
+        public static implicit operator nint(PTR_FUNC_GET_WIDTH func) => func.Ptr;
+        public override string ToString() => Ptr.ToString("X8");
+    }
+    internal static PTR_FUNC_GET_WIDTH s_PTR_FUNC_GET_WIDTH;
+
+    [System.Runtime.InteropServices.StructLayoutAttribute(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    public unsafe readonly struct PTR_FUNC_GET_HEIGHT(nint ptr) : IPtrMetadata, IHookMethod
+    {
+        [System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.SysInt)]
+        public readonly delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, int> m_Pointer =
+            (delegate* unmanaged[SuppressGCTransition, Cdecl]<nint, int>)ptr;
+        [System.Runtime.CompilerServices.MethodImplAttribute(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int Delegate(nint @this) => this.m_Pointer(@this);
+        public nint PtrMethod => new(m_Pointer);
+
+        public nint Ptr => new(m_Pointer);
+
+        public static implicit operator bool(PTR_FUNC_GET_HEIGHT func) => func.Ptr != nint.Zero;
+        public static implicit operator PTR_FUNC_GET_HEIGHT(nint func) => new(func);
+        public static implicit operator nint(PTR_FUNC_GET_HEIGHT func) => func.Ptr;
+        public override string ToString() => Ptr.ToString("X8");
+    }
+    internal static PTR_FUNC_GET_HEIGHT s_PTR_FUNC_GET_HEIGHT;
+
+    partial struct Ptr_UnityEngine_Texture
+    {
+        public nint GetNativeTexturePtr() => s_PTR_FUNC_GET_NATIVE_TEXTURE_PTR.Delegate(this);
+        public int Width => s_PTR_FUNC_GET_WIDTH.Delegate(this);
+        public int Height => s_PTR_FUNC_GET_HEIGHT.Delegate(this);
+    }
+
+    partial struct Ptr_UnityEngine_Texture
+    {
+        public static implicit operator UnityEngine_Texture2D.Ptr_UnityEngine_Texture2D(Ptr_UnityEngine_Texture ptr) => new(ptr.m_Pointer);
+
+
+    }
+
+    public static void Initialize(UnityMetadataSearchService metadataSearchService)
+    {
+        s_PTR_FUNC_GET_NATIVE_TEXTURE_PTR = metadataSearchService.GetMethodPointer(nameof(UnityEngine_Texture.PTR_FUNC_GET_NATIVE_TEXTURE_PTR));
+        s_PTR_FUNC_GET_WIDTH = metadataSearchService.GetMethodPointer(nameof(UnityEngine_Texture.PTR_FUNC_GET_WIDTH));
+        s_PTR_FUNC_GET_HEIGHT = metadataSearchService.GetMethodPointer(nameof(UnityEngine_Texture.PTR_FUNC_GET_HEIGHT));
+    }
+}

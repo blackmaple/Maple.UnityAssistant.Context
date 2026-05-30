@@ -1,16 +1,14 @@
 using Maple.Hook.Abstractions;
-using Maple.MonoGameAssistant.MetadataExtensions.MetadataCommon;
-using Maple.MonoGameAssistant.MetadataUnity;
-using Maple.UnityAssistant.Context.UnityHook.Ptr_Input;
 using Maple.UnityAssistant.Context.UnityMetadata;
-using Microsoft.Extensions.Logging;
+using Maple.UnityAssistant.Context.UnityMetadata.MethodSignature;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Maple.UnityAssistant.Context.UnityMetadata.MethodSignature.UnityEngine_Input;
 
 namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 {
 
-    public class GetKeyUpIntHookItem : HookItem<GetKeyUpIntHookItem, PTR_FUNC_GET_KEY_UP_INT_2E27C050DF037639, PTR_FUNC_GET_KEY_UP_INT_2E27C050DF037639>, IUnityHookItem<GetKeyUpIntHookItem>
+    public class GetKeyUpIntHookItem : HookItem<GetKeyUpIntHookItem, PTR_FUNC_GET_KEY_UP_INT, PTR_FUNC_GET_KEY_UP_INT>, IUnityHookItem<GetKeyUpIntHookItem>
     {
         public Func<KeyCode, GetKeyUpIntHookItem, bool>? SyncCallback { get; set; }
         //public bool Original(KeyCode key)
@@ -20,12 +18,12 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 
         public static GetKeyUpIntHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
-            var pointer = metadataSearcher.GetMethodPointer(nameof(GetKeyUpIntHookItem));
+            var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_KEY_UP_INT));
             //     metadataContext.Logger.LogInformation("GetKeyUpIntHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetKeyUpIntHookItem>($"NOT FOUND {nameof(GetKeyUpIntHookItem)}");
+                return UnityBlockInputException.Throw<GetKeyUpIntHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_KEY_UP_INT)}");
             }
             return hookFactory.Create<GetKeyUpIntHookItem>(pointer, GetHookMethodPointer());
 
