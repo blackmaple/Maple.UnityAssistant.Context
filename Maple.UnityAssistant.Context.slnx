@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Maple.UnityAssistant.Context/Maple.UnityAssistant.Context.csproj" />
+  <Project Path="Maple.UnityAssistant.Resource/Maple.UnityAssistant.Resource.csproj" Id="18891a6d-1af8-49ed-903e-8013dbb57f38" />
 </Solution>

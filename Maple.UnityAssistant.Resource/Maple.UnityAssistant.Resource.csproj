@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Maple.UnityAssistant.Resource</Title>
+		<RepositoryUrl>https://github.com/blackmaple/Maple.UnityAssistant.Context</RepositoryUrl>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<Description>enable interoperability between C# AOT and unity game.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>unity;mono;il2cpp;c#;dotnet;AOT</PackageTags>
+		<Version>0.26.0530.02-rc</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE" Link="LICENSE">
+			<PackagePath>\</PackagePath>
+			<Pack>True</Pack>
+		</None>
+		<None Include="..\README.md" Link="README.md">
+			<PackagePath>\</PackagePath>
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Maple.MonoGameAssistant.GameDTO" Version="1.6.0-rc" />
+
+
+	</ItemGroup>
+
+</Project>

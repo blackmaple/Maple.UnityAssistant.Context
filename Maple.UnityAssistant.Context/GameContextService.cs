@@ -7,9 +7,9 @@ using Maple.MonoGameAssistant.Core;
 using Maple.MonoGameAssistant.DllProxyDobbyHook;
 using Maple.MonoGameAssistant.GameDTO;
 using Maple.MonoGameAssistant.Model;
-using Maple.UnityAssistant.Context.GameRes;
 using Maple.UnityAssistant.Context.UnityHook;
 using Maple.UnityAssistant.Context.UnityMetadata;
+using Maple.UnityAssistant.Resource;
 using Maple.XScheduler;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
@@ -519,8 +519,8 @@ namespace Maple.UnityAssistant.Context
 
         #region IImGuiUnityInputBridge
 
-        protected UnityMetadataSearchService? UnityMetadataSearcher { get; set; }
-        public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataSearcher?.SetImeCompositionMode();
+        protected UnityMetadataSearchService? UnityMetadataSearchService { get; set; }
+        public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataSearchService?.SetImeCompositionMode();
 
         public virtual bool TryGetImageInfo(string? category, string objectId, string? image, out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
         {
@@ -571,10 +571,10 @@ namespace Maple.UnityAssistant.Context
 
         public virtual void BlockInput(IImGuiUIView view)
         {
-            var metadataSearcher = this.UnityMetadataSearcher;
-            if (metadataSearcher is not null)
+            var  metadataSearchService = this.UnityMetadataSearchService;
+            if (metadataSearchService is not null)
             {
-                var blockInput = UnityBlockInputService.Create(this.HookFactory, view, metadataSearcher);
+                var blockInput = UnityBlockInputService.Create(this.HookFactory, view, metadataSearchService);
                 blockInput.BlockInput();
             }
         }
@@ -600,7 +600,7 @@ namespace Maple.UnityAssistant.Context
         }
         private async Task TryLoadUnityMetadataSearchServiceAsync()
         {
-            this.UnityMetadataSearcher = await this.MonoTaskAsync((p, host) => host.TryLoadUnityMetadataSearchService(), this).ConfigureAwait(false);
+            this.UnityMetadataSearchService = await this.MonoTaskAsync((p, host) => host.TryLoadUnityMetadataSearchService(), this).ConfigureAwait(false);
         }
         #endregion
 

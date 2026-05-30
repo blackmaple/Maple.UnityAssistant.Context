@@ -15,7 +15,7 @@
 		<Description>enable interoperability between C# AOT and unity game.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>unity;mono;il2cpp;c#;dotnet;AOT</PackageTags>
-		<Version>0.26.0524.01-rc</Version>
+		<Version>0.26.0530.02-rc</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\LICENSE" Link="LICENSE">
@@ -41,6 +41,9 @@
 		<PackageReference Include="Maple.XScheduler.SetTimer" Version="0.26.524.1-rc" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
 
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Maple.UnityAssistant.Resource\Maple.UnityAssistant.Resource.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -2,8 +2,8 @@
 using Maple.MonoGameAssistant.DllProxyDobbyHook;
 using Maple.MonoGameAssistant.GameDTO;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCollector;
-using Maple.UnityAssistant.Context.GameRes;
 using Maple.UnityAssistant.Context.UnityMetadata.MethodSignature;
+using Maple.UnityAssistant.Resource;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 

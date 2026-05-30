@@ -1,6 +1,6 @@
 ﻿using Maple.MonoGameAssistant.GameDTO;
 
-namespace Maple.UnityAssistant.Context.GameRes
+namespace Maple.UnityAssistant.Resource
 {
     public class GameObjectResource : GameObjectDisplayDTO, IGameCommonReource
     {
