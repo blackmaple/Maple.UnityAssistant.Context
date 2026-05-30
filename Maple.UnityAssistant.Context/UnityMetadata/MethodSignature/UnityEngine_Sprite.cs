@@ -127,7 +127,7 @@ partial class UnityEngine_Sprite
     {
         public UnityEngine_Texture2D.Ptr_UnityEngine_Texture2D GetTexture() => s_PTR_FUNC_GET_TEXTURE.Delegate(this);
         private void GetTextureRect_Injected(MapleOut<Ref_Rect> rect) => s_PTR_FUNC_GET_TEXTURE_RECT_INJECTED.Delegate(this, rect);
-        public void GetTextureRect_Injected(out Ref_Rect rect) => s_PTR_FUNC_GET_TEXTURE_RECT_INJECTED.Delegate(this, MapleOut<Ref_Rect>.FromOut(out rect));
+        public void GetTextureRect_Injected(out Ref_Rect rect) => GetTextureRect_Injected(MapleOut<Ref_Rect>.FromOut(out rect));
 
     }
 
