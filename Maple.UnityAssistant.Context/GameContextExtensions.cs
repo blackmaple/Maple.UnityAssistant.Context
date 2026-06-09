@@ -1,7 +1,5 @@
 ﻿using Maple.Hook.Imp.Dobby.Static;
 using Maple.Hook.WinMsg;
-using Maple.ImGui.Backends.D3D11.GraphicsCore;
-using Maple.ImGui.Backends.D3D11.ImGuiCore;
 using Maple.ImGui.Backends.GameUI;
 using Maple.ImGui.Backends.ImGuiCore;
 using Maple.ImGui.Backends.Windows.GraphicsCore;
@@ -18,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Maple.UnityAssistant.Context
 {
-    public static class GameContextExtension
+    public static class GameContextExtensions
     {
         public static void Run<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TContextService>(
             Action<MonoGameSettings>? actionGameSettings = default,
@@ -34,10 +32,10 @@ namespace Maple.UnityAssistant.Context
 
             //HOOK->D3D11
             services.AddDobbyHookNativeFactory();
-            services.AddD3D11FunctionsProvider();
+           
             //true->兼容第三方已HOOK的情况
             services.AddWindowsGraphicsHookFactory(true);
-            services.AddSingleton<D3D11BackendService>();
+
             //各种系统对接接口
             services.AddBridgeCollection();
             services.AddDefaultWin32InputBridge();
@@ -76,16 +74,16 @@ namespace Maple.UnityAssistant.Context
 
         }
 
-        public static void Run_MONO<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TContextService>(
-            Action<MonoGameSettings>? actionGameSettings = default,
-            int millisecondsTimeout = 5000)
-            where TContextService : class, IGameContextService
-        { 
-               Run<TContextService>(actionGameSettings, services => 
-               {
-                   services.AddMonoInternalCallService();
-               }, millisecondsTimeout);
-        }
+        //public static void Run_MONO<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TContextService>(
+        //    Action<MonoGameSettings>? actionGameSettings = default,
+        //    int millisecondsTimeout = 5000)
+        //    where TContextService : class, IGameContextService
+        //{ 
+        //       Run<TContextService>(actionGameSettings, services => 
+        //       {
+        //           services.AddMonoInternalCallService();
+        //       }, millisecondsTimeout);
+        //}
 
 
     }

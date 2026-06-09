@@ -8,14 +8,14 @@
 
 		<DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>Maple.UnityAssistant.Context</Title>
+		<Title>Maple.UnityAssistant.Context.D3D12</Title>
 		<RepositoryUrl>https://github.com/blackmaple/Maple.UnityAssistant.Context</RepositoryUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<Description>enable interoperability between C# AOT and unity game.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>unity;mono;il2cpp;c#;dotnet;AOT</PackageTags>
-		<Version>0.26.0609.01-rc</Version>
+		<Version>0.26.0530.03-rc</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\LICENSE" Link="LICENSE">
@@ -29,8 +29,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Maple.Hook.Imp.Dobby.Static" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.D3D12" Version="0.26.524.1-rc" />
 		<PackageReference Include="Maple.ImGui.Backends.GameUI" Version="0.26.524.1-rc" />
-		<PackageReference Include="Maple.ImGui.Backends.Windows" Version="0.26.524.1-rc" />
 		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.6.0-rc" />
 		<PackageReference Include="Maple.MonoGameAssistant.DllProxyDobbyHook" Version="0.26.524.1-rc" />
 		<PackageReference Include="Maple.MonoGameAssistant.Logger" Version="1.6.0-rc" />
@@ -43,7 +43,8 @@
 
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Maple.UnityAssistant.Resource\Maple.UnityAssistant.Resource.csproj" />
+		<ProjectReference Include="..\Maple.UnityAssistant.Context\Maple.UnityAssistant.Context.csproj" />
+		<ProjectReference Include="..\Maple.UnityAssistant.Resource\Maple.UnityAssistant.Resource.csproj" />
 	</ItemGroup>
 
 </Project>

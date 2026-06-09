@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="Maple.UnityAssistant.Context.D3D11/Maple.UnityAssistant.Context.D3D11.csproj" Id="ec771312-22b2-42a2-af6b-078bdf2f3d9a" />
+  <Project Path="Maple.UnityAssistant.Context.D3D12/Maple.UnityAssistant.Context.D3D12.csproj" Id="d893ec1b-706a-40ab-86ca-de66486f79cd" />
   <Project Path="Maple.UnityAssistant.Context/Maple.UnityAssistant.Context.csproj" />
+  <Project Path="Maple.UnityAssistant.Demo/Maple.UnityAssistant.Demo.csproj" Id="dead58a6-b015-4281-9ccd-1da8bfdd8886" />
   <Project Path="Maple.UnityAssistant.Resource/Maple.UnityAssistant.Resource.csproj" Id="18891a6d-1af8-49ed-903e-8013dbb57f38" />
 </Solution>

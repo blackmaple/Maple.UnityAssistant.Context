@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+
+		<PublishAot>true</PublishAot>
+		<IsAotCompatible>true</IsAotCompatible>
+		<OptimizationPreference>Speed</OptimizationPreference>
+
+		<OutputType>Library</OutputType>
+		<AssemblyName>winhttp</AssemblyName>
+
+		<!--https://learn.microsoft.com/zh-cn/dotnet/core/deploying/trimming/trimming-options?pivots=dotnet-8-0-->
+
+		<DebuggerSupport>false</DebuggerSupport>
+		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
+
+		<EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+		<EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+		<EventSourceSupport>false</EventSourceSupport>
+		<!--<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>-->
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+		<MetricsSupport>false</MetricsSupport>
+		<StackTraceSupport>true</StackTraceSupport>
+		<UseNativeHttpHandler>true</UseNativeHttpHandler>
+		<UseSystemResourceKeys>true</UseSystemResourceKeys>
+		<!--<XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>-->
+
+		<BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+		<CustomResourceTypesSupport>false</CustomResourceTypesSupport>
+		<EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization>false</EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization>
+		<StartupHookSupport>false</StartupHookSupport>
+
+
+		<EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+		<EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
+		<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.AspNetCore.Http.Generated</InterceptorsPreviewNamespaces>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+
+	</PropertyGroup>
+
+
+	<ItemGroup>
+
+		<ProjectReference Include="..\Maple.UnityAssistant.Context.D3D12\Maple.UnityAssistant.Context.D3D12.csproj" />
+		<ProjectReference Include="..\Maple.UnityAssistant.Context\Maple.UnityAssistant.Context.csproj" />
+		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.GameDTO" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataExtensions" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataSourceGenerator" Version="1.6.0-rc" />
+		<PackageReference Include="Maple.MonoGameAssistant.MetadataCollections" Version="1.6.0-rc" />
+
+	</ItemGroup>
+
+	<Target Name="PostPublishActions" AfterTargets="Publish">
+		<PropertyGroup>
+			<Time>$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</Time>
+			<TargetDir>C:\Program Files (x86)\Steam\steamapps\common\VMFL Demo\</TargetDir>
+			<PublishDllPath>$(PublishDir)$(AssemblyName).dll</PublishDllPath>
+			<TargetFileName>$(AssemblyName).dll</TargetFileName>
+			<BackupFileName>$(AssemblyName).dll.bak_$(Time)</BackupFileName>
+		</PropertyGroup>
+
+		<Message Text="自动部署功能已经启动 $(PublishDir)" Importance="high" />
+
+		<Exec Command="if exist &quot;$(TargetDir)$(TargetFileName)&quot; move &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(TargetDir)$(BackupFileName)&quot;" />
+		<Exec Command="if exist &quot;$(TargetDir)&quot; copy &quot;$(PublishDllPath)&quot; &quot;$(TargetDir)$(TargetFileName)&quot;" />
+	</Target>
+</Project>
