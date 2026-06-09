@@ -15,7 +15,7 @@
 		<Description>enable interoperability between C# AOT and unity game.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>unity;mono;il2cpp;c#;dotnet;AOT</PackageTags>
-		<Version>0.26.0609.01-rc</Version>
+		<Version>0.26.0609.02-rc</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\LICENSE" Link="LICENSE">
@@ -29,8 +29,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Maple.Hook.Imp.Dobby.Static" Version="0.26.524.1-rc" />
-		<PackageReference Include="Maple.ImGui.Backends.D3D11" Version="0.26.524.1-rc" />
-		<PackageReference Include="Maple.ImGui.Backends.GameUI" Version="0.26.524.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.D3D11" Version="0.26.609.1-rc" />
+		<PackageReference Include="Maple.ImGui.Backends.GameUI" Version="0.26.609.1-rc" />
 		<PackageReference Include="Maple.MonoGameAssistant.Core" Version="1.6.0-rc" />
 		<PackageReference Include="Maple.MonoGameAssistant.DllProxyDobbyHook" Version="0.26.524.1-rc" />
 		<PackageReference Include="Maple.MonoGameAssistant.Logger" Version="1.6.0-rc" />
