@@ -1,6 +1,6 @@
 ﻿namespace Maple.UnityAssistant.Resource
 {
-    public interface IGameCommonReource
+    public interface IGameCommonResource
     {
         nint ObjectPointer { get; set; }
         nint ImagePointer { get; set; }

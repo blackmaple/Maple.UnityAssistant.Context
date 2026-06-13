@@ -17,14 +17,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //}
 
 
-        public static GetAxisHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
+        public static GetAxisHookItem? Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_AXIS));
 
             //     metadataContext.Logger.LogInformation("GetAxisHookItem code:{code:X8}, pointer: {pointer:X8}", code, pointer);
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetAxisHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_AXIS)}");
+                return default;
             }
             return hookFactory.Create<GetAxisHookItem>(pointer, GetHookMethodPointer());
 

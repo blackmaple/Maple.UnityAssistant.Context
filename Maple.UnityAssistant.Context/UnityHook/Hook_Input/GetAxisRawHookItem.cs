@@ -8,7 +8,7 @@ using static Maple.UnityAssistant.Context.UnityMetadata.MethodSignature.UnityEng
 namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
 {
 
-    public class GetAxisRawHookItem : HookItem<GetAxisRawHookItem, PTR_FUNC_GET_AXIS_RAW, PTR_FUNC_GET_AXIS>, IUnityHookItem<GetAxisRawHookItem>
+    public class GetAxisRawHookItem : HookItem<GetAxisRawHookItem, PTR_FUNC_GET_AXIS_RAW, PTR_FUNC_GET_AXIS_RAW>, IUnityHookItem<GetAxisRawHookItem>
     {
         public Func<PMonoString, GetAxisRawHookItem, float>? SyncCallback { get; set; }
         //public float Original(PMonoString axisName)
@@ -16,14 +16,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(axisName);
         //}
 
-        public static GetAxisRawHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
+        public static GetAxisRawHookItem? Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_AXIS_RAW));
             //          metadataContext.Logger.LogInformation("GetAxisRawHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetAxisRawHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_AXIS_RAW)}");
+                return default;
             }
             return hookFactory.Create<GetAxisRawHookItem>(pointer, GetHookMethodPointer());
 

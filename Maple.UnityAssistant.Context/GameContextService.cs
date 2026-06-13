@@ -520,7 +520,23 @@ namespace Maple.UnityAssistant.Context
         #region IImGuiUnityInputBridge
 
         protected UnityMetadataSearchService? UnityMetadataSearchService { get; set; }
-        public virtual void PlatformSetImeDataFn(bool on) => this.UnityMetadataSearchService?.SetImeCompositionMode();
+        protected void TryPlatformSetImeDataFn(bool _)
+        {
+            using (this.Logger.Running())
+            {
+                try
+                {
+                    var searchService = this.UnityMetadataSearchService;
+                    searchService?.SetImeCompositionMode();
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.LogError("{MethodName}=>{Msg}", nameof(PlatformSetImeDataFn), ex);
+                }
+            }
+
+        }
+        public virtual void PlatformSetImeDataFn(bool on) => TryPlatformSetImeDataFn(on);
 
         public virtual bool TryGetImageInfo(string? category, string objectId, string? image, out nint nativePtr, out float u0, out float v0, out float u1, out float v1)
         {
@@ -568,20 +584,34 @@ namespace Maple.UnityAssistant.Context
         }
 
 
-
-        public virtual void BlockInput(IImGuiUIView view)
+        protected void TryBlockInput(IImGuiUIView view)
         {
-            var  metadataSearchService = this.UnityMetadataSearchService;
-            if (metadataSearchService is not null)
+            using (this.Logger.Running())
             {
-                var blockInput = UnityBlockInputService.Create(this.HookFactory, view, metadataSearchService);
-                blockInput.BlockInput();
+                try
+                {
+                    var metadataSearchService = this.UnityMetadataSearchService;
+                    if (metadataSearchService is not null)
+                    {
+                        var blockInput = UnityBlockInputService.Create(this.HookFactory, view, metadataSearchService);
+                        blockInput.BlockInput();
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.LogError("{MethodName}=>{Msg}", nameof(BlockInput), ex);
+                }
             }
+
         }
+        public virtual void BlockInput(IImGuiUIView view) => TryBlockInput(view);
+
+
 
         protected virtual UnityMetadataSearchService? LoadUnityMetadataSearchService()
         {
-            return UnityMetadataSearchFactory.Create(this.RuntimeContext, this.InternalCallService);
+            return UnityMetadataSearchFactory.Create(this.Logger, this.RuntimeContext, this.InternalCallService);
         }
         private UnityMetadataSearchService? TryLoadUnityMetadataSearchService()
         {
@@ -593,7 +623,7 @@ namespace Maple.UnityAssistant.Context
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.LogError("{MethodName}=>{msg}", nameof(LoadUnityMetadataSearchService), ex.Message);
+                    this.Logger.LogError("{MethodName}=>{msg}", nameof(LoadUnityMetadataSearchService), ex);
                 }
             }
             return default;

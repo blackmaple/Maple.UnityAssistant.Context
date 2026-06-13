@@ -74,7 +74,7 @@ namespace Maple.UnityAssistant.Context
                     await backendService.StartAsync(cancellationToken).ConfigureAwait(false);
                     if (this.Logger.IsEnabled(LogLevel.Information))
                     {
-                        this.Logger.LogInformation("{methodName}=>{fullName}", nameof(LoadWin32ImGuiBackendServiceAsync), backendService.GetType().FullName);
+                        this.Logger.LogInformation("{methodName}=>{fullName}", nameof(LoadWin32ImGuiBackendServiceAsync), backendService.GetType().Name);
                     }
                 }
                 catch (Exception ex)

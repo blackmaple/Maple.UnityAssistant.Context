@@ -2,7 +2,7 @@
 
 namespace Maple.UnityAssistant.Resource
 {
-    public class GameObjectResource : GameObjectDisplayDTO, IGameCommonReource
+    public class GameObjectResource : GameObjectDisplayDTO, IGameCommonResource
     {
         public nint ObjectPointer { get; set; }
         public nint ImagePointer { get; set; }

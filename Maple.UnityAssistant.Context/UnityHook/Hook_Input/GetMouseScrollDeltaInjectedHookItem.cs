@@ -17,14 +17,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    this.OriginalMethod.Delegate(ret);
         //}
 
-        public static GetMouseScrollDeltaInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
+        public static GetMouseScrollDeltaInjectedHookItem? Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_MOUSE_SCROLL_DELTA_INJECTED));
             //      metadataContext.Logger.LogInformation("GetMouseScrollDeltaInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMouseScrollDeltaInjectedHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_MOUSE_SCROLL_DELTA_INJECTED)}");
+                return default;
             }
             return hookFactory.Create<GetMouseScrollDeltaInjectedHookItem>(pointer, GetHookMethodPointer());
 

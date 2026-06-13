@@ -101,11 +101,22 @@ public static partial class UnityEngine_Input
     public const string IL2CPP_get_touchPressureSupported = "UnityEngine.Input::get_touchPressureSupported()";
     public const string IL2CPP_get_touchSupported = "UnityEngine.Input::get_touchSupported()";
     public const string IL2CPP_GetAccelerationEvent_Injected = "UnityEngine.Input::GetAccelerationEvent_Injected(System.Int32,UnityEngine.AccelerationEvent&)";
+
     public const string IL2CPP_GetAxis = "UnityEngine.Input::GetAxis(System.String)";
+    public const string IL2CPP_GetAxis1 = "UnityEngine.Internal.InputUnsafeUtility::GetAxis(System.String)";
     public const string IL2CPP_GetAxisRaw = "UnityEngine.Input::GetAxisRaw(System.String)";
+    public const string IL2CPP_GetAxisRaw1 = "UnityEngine.Internal.InputUnsafeUtility::GetAxisRaw(System.String)";
+
+
     public const string IL2CPP_GetButton = "UnityEngine.Input::GetButton(System.String)";
+    public const string IL2CPP_GetButton1 = "UnityEngine.Internal.InputUnsafeUtility::GetButton(System.String)";
+
     public const string IL2CPP_GetButtonDown = "UnityEngine.Input::GetButtonDown(System.String)";
+    public const string IL2CPP_GetButtonDown1 = "UnityEngine.Internal.InputUnsafeUtility::GetButtonDown(System.String)";
+
     public const string IL2CPP_GetButtonUp = "UnityEngine.Input::GetButtonUp(System.String)";
+    public const string IL2CPP_GetButtonUp1 = "UnityEngine.Internal.InputUnsafeUtility::GetButtonUp(System.String)";
+
     public const string IL2CPP_GetGyroInternal = "UnityEngine.Input::GetGyroInternal()";
     public const string IL2CPP_GetJoystickNames = "UnityEngine.Input::GetJoystickNames()";
     public const string IL2CPP_GetKeyDownInt = "UnityEngine.Input::GetKeyDownInt(UnityEngine.KeyCode)";

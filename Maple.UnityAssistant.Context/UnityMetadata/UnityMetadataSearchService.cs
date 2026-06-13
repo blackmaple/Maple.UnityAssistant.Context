@@ -3,6 +3,7 @@ using Maple.MonoGameAssistant.DllProxyDobbyHook;
 using Maple.MonoGameAssistant.MetadataExtensions.MetadataCollector;
 using Maple.UnityAssistant.Context.UnityMetadata.MethodSignature;
 using Maple.UnityAssistant.Resource;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -11,15 +12,18 @@ namespace Maple.UnityAssistant.Context.UnityMetadata
 
     public class UnityMetadataSearchService
     {
+        public ILogger Logger { get; }
         public MonoRuntimeContext Context { get; }
         public MonoInternalCallService InternalCallService { get; }
-        public Dictionary<string, string> MethodSignatureCache { get; }
+        public Dictionary<string, List<string>> MethodSignatureCache { get; }
 
         public UnityMetadataSearchService(
+        ILogger logger,
         MonoRuntimeContext context,
         MonoInternalCallService internalCallService,
-        Dictionary<string, string> methodSignatureCache)
+        Dictionary<string, List<string>> methodSignatureCache)
         {
+            Logger = logger;
             Context = context;
             InternalCallService = internalCallService;
             MethodSignatureCache = methodSignatureCache;
@@ -69,29 +73,41 @@ namespace Maple.UnityAssistant.Context.UnityMetadata
         }
     }
 
-    public sealed class UnityMetadataSearchService_MONO(MonoRuntimeContext context, MonoInternalCallService internalCallService, Dictionary<string, string> methodSignatureCache)
-        : UnityMetadataSearchService(context, internalCallService, methodSignatureCache)
+    public sealed class UnityMetadataSearchService_MONO(ILogger logger, MonoRuntimeContext context, MonoInternalCallService internalCallService, Dictionary<string, List<string>> methodSignatureCache)
+        : UnityMetadataSearchService(logger, context, internalCallService, methodSignatureCache)
     {
         public override nint GetMethodPointer(string code)
         {
-            if (this.MethodSignatureCache.TryGetValue(code, out var methodSignature)
-                && this.InternalCallService.TryGetInternalCall(methodSignature, out var pointer))
+            if (this.MethodSignatureCache.TryGetValue(code, out var methodSignatures))
             {
-                return pointer;
+                foreach (var methodSignature in methodSignatures)
+                {
+                    if (this.InternalCallService.TryGetInternalCall(methodSignature, out var pointer))
+                    {
+                        return pointer;
+                    }
+                }
             }
             return default;
         }
     }
 
-    public sealed class UnityMetadataSearchService_IL2CPP(MonoRuntimeContext context, MonoInternalCallService internalCallService, Dictionary<string, string> methodSignatureCache)
-        : UnityMetadataSearchService(context, internalCallService, methodSignatureCache)
+    public sealed class UnityMetadataSearchService_IL2CPP(ILogger logger, MonoRuntimeContext context, MonoInternalCallService internalCallService, Dictionary<string, List<string>> methodSignatureCache)
+        : UnityMetadataSearchService(logger, context, internalCallService, methodSignatureCache)
     {
 
         public override nint GetMethodPointer(string code)
         {
-            if (this.MethodSignatureCache.TryGetValue(code, out var methodSignature))
+            if (this.MethodSignatureCache.TryGetValue(code, out var methodSignatures))
             {
-                return this.Context.GetInternalCall(methodSignature);
+                foreach (var methodSignature in methodSignatures)
+                {
+                    var pointer = this.Context.GetInternalCall(methodSignature);
+                    if (pointer)
+                    {
+                        return pointer;
+                    }
+                }
             }
             return default;
         }

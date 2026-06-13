@@ -16,14 +16,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(key);
         //}
 
-        public static GetKeyUpIntHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
+        public static GetKeyUpIntHookItem? Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_KEY_UP_INT));
             //     metadataContext.Logger.LogInformation("GetKeyUpIntHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetKeyUpIntHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_KEY_UP_INT)}");
+                return default;
             }
             return hookFactory.Create<GetKeyUpIntHookItem>(pointer, GetHookMethodPointer());
 

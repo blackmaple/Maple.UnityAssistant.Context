@@ -16,14 +16,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    return this.OriginalMethod.Delegate(key);
         //}
 
-        public static GetKeyDownIntHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
+        public static GetKeyDownIntHookItem? Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_KEY_DOWN_INT));
             //    metadataContext.Logger.LogInformation("GetKeyDownIntHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetKeyDownIntHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_KEY_DOWN_INT)}");
+                return default;
             }
             return hookFactory.Create<GetKeyDownIntHookItem>(pointer, GetHookMethodPointer());
 

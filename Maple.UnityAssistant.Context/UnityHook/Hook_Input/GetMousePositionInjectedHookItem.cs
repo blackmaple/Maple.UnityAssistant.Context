@@ -17,14 +17,14 @@ namespace Maple.UnityAssistant.Context.UnityHook.Hook_Input
         //    this.OriginalMethod.Delegate(ret);
         //}
 
-        public static GetMousePositionInjectedHookItem Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
+        public static GetMousePositionInjectedHookItem? Create(IHookFactory hookFactory, UnityMetadataSearchService metadataSearcher)
         {
             var pointer = metadataSearcher.GetMethodPointer(nameof(PTR_FUNC_GET_MOUSE_POSITION_INJECTED));
             //      metadataContext.Logger.LogInformation("GetMousePositionInjectedHookItem code: {code:X8}, pointer: {pointer:X8}", code, pointer);
 
             if (pointer == nint.Zero)
             {
-                return UnityBlockInputException.Throw<GetMousePositionInjectedHookItem>($"NOT FOUND {nameof(PTR_FUNC_GET_MOUSE_POSITION_INJECTED)}");
+                return default;
             }
             return hookFactory.Create<GetMousePositionInjectedHookItem>(pointer, GetHookMethodPointer());
 
